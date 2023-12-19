@@ -1,26 +1,129 @@
-﻿using Xunit;
+﻿using Microsoft.Extensions.Localization;
+using Moq;
+using P3AddNewFunctionalityDotNetCore.Models;
+using P3AddNewFunctionalityDotNetCore.Models.Repositories;
+using P3AddNewFunctionalityDotNetCore.Models.Services;
+using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
+using System.Collections.Generic;
+using Xunit;
 
 namespace P3AddNewFunctionalityDotNetCore.Tests
 {
     public class ProductServiceTests
     {
-        /// <summary>
-        /// Take this test method as a template to write your test method.
-        /// A test method must check if a definite method does its job:
-        /// returns an expected value from a particular set of parameters
-        /// </summary>
-        [Fact]
-        public void ExampleMethod()
+        static List<string> validityResult(ProductViewModel product)
         {
-            // Arrange
+            var mockCart = Mock.Of<ICart>();
+            var mockProductRepository = Mock.Of<IProductRepository>();
+            var mockOrderRepository = Mock.Of<IOrderRepository>();
+            var mockLocalizer = Mock.Of<IStringLocalizer<ProductService>>();
 
-            // Act
+            var productService = new ProductService(mockCart, mockProductRepository, mockOrderRepository, mockLocalizer);
 
-
-            // Assert
-            Assert.Equal(1, 1);
+            return productService.CheckProductModelErrors(product);
         }
 
-        // TODO write test methods to ensure a correct coverage of all possibilities
+        // Test de la méthode CheckProductModelErrors de ProductService avec un produit valide
+        [Fact]
+        public void CheckProductModelErrors_ValidData()
+        {
+            // Arrange
+            var product = new ProductViewModel
+            {
+                Name = "Name Valide",
+                Description = "Description Valide",
+                Details = "Details Valide",
+                Price = "100",
+                Stock = "50"
+            };
+
+            // Act
+            var result = validityResult(product);
+
+            // Assert
+            Assert.Empty(result);
+        }
+
+        // Test de la méthode CheckProductModelErrors de ProductService avec un produit sans nom
+        [Fact]
+        public void CheckProductModelErrors_NoName()
+        {
+            // Arrange
+            var product = new ProductViewModel
+            {
+                Name = "",
+                Description = "Description Valide",
+                Details = "Details Valide",
+                Price = "100",
+                Stock = "50"
+            };
+
+            // Act
+            var result = validityResult(product);
+
+            // Assert
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public void CheckProductModelErrors_InvalidPrice()
+        {
+            // Arrange
+            var product = new ProductViewModel
+            {
+                Name = "Name Valide",
+                Description = "Description Valide",
+                Details = "Details Valide",
+                Price = "Invalid Price",
+                Stock = "50"
+            };
+
+            // Act
+            var result = validityResult(product);
+
+            // Assert
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public void CheckProductModelErrors_InvalidStock()
+        {
+            // Arrange
+            var product = new ProductViewModel
+            {
+                Name = "Name Valide",
+                Description = "Description Valide",
+                Details = "Details Valide",
+                Price = "100",
+                Stock = "Invalid Stock"
+            };
+
+            // Act
+            var result = validityResult(product);
+
+            // Assert
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public void CheckProductModelErrors_InvalidData()
+        {
+            // Arrange
+            var product = new ProductViewModel
+            {
+                Name = "",
+                Description = "",
+                Details = "",
+                Price = "",
+                Stock = ""
+            };
+
+            // Act
+            var result = validityResult(product);
+
+            // Assert
+            Assert.Equal(5, result.Count);
+        }
+
     }
 }

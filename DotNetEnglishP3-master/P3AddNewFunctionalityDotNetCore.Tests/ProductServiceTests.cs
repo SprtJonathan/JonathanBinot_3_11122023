@@ -11,6 +11,18 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 {
     public class ProductServiceTests
     {
+
+        private readonly IStringLocalizer<ProductService> _localizer;
+        public ProductServiceTests()
+        {
+            // Initialisez _localizer ici. Cela pourrait être fait avec une bibliothèque de localisation réelle ou un mock.
+            // Dans cet exemple, un mock est utilisé à l'aide de Moq.
+            var mockLocalizer = new Mock<IStringLocalizer<ProductService>>();
+            // Ajoutez d'autres initialisations pour les clés de localisation utilisées dans vos tests.
+
+            _localizer = mockLocalizer.Object;
+        }
+
         static List<string> validityResult(ProductViewModel product)
         {
             var mockCart = Mock.Of<ICart>();
@@ -63,6 +75,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             // Assert
             Assert.Single(result);
+            Assert.Contains(_localizer["MissingName"], result);
         }
 
         [Fact]
@@ -83,6 +96,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             // Assert
             Assert.Single(result);
+            Assert.Contains(_localizer["PriceNotANumber"], result);
         }
 
         [Fact]
@@ -103,6 +117,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             // Assert
             Assert.Single(result);
+            Assert.Contains(_localizer["StockNotAnInteger"], result);
         }
 
         [Fact]
@@ -123,7 +138,13 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             // Assert
             Assert.Equal(5, result.Count);
-        }
+            Assert.Contains(_localizer["MissingName"], result);
+            Assert.Contains(_localizer["MissingDescription"], result);
+            Assert.Contains(_localizer["MissingDetails"], result);
+            Assert.Contains(_localizer["StockNotAnInteger"], result);
+            Assert.Contains(_localizer["PriceNotANumber"], result);
+        }
+
 
     }
 }

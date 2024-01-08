@@ -94,6 +94,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             Assert.Contains(_localizer["MissingName"], result);
         }
 
+        // Test de la méthode CheckProductModelErrors de ProductService avec un prix invalide
         [Fact]
         public void CheckProductModelErrors_InvalidPrice()
         {
@@ -115,6 +116,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             Assert.Contains(_localizer["PriceNotANumber"], result);
         }
 
+        // Test de la méthode CheckProductModelErrors de ProductService avec un stock (quantité) invalide
         [Fact]
         public void CheckProductModelErrors_InvalidStock()
         {
@@ -219,6 +221,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             Assert.Equal("100", result.Stock);
             Assert.Equal("10.99", result.Price);
         }
+
         // Test de la méthode GetProductByIdViewModel de ProductService avec un id invalide
         [Fact]
         public void GetProductByIdViewModel_InvalidId_ReturnsNull()
@@ -330,8 +333,6 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
                 Stock = "100"
             };
 
-
-
             // Act
             productService.SaveProduct(productViewModel);
 
@@ -343,6 +344,23 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
                 p.Price == double.Parse(productViewModel.Price) &&
                 p.Quantity == int.Parse(productViewModel.Stock)
             )), Times.Once());
+        }
+
+        [Fact]
+        public void SaveProduct_WithInvalidData_ShouldReturnErrors()
+        {
+            // Arrange
+            ProductService productService = SetupProductService();
+            var invalidProductViewModel = new ProductViewModel
+            {
+                // On ne remplit aucun champ intentionnellement pour délcencher des erreurs
+            };
+
+            // Act
+            var errors = productService.CheckProductModelErrors(invalidProductViewModel);
+
+            // Assert
+            Assert.NotEmpty(errors);
         }
 
     }

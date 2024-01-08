@@ -46,7 +46,7 @@ namespace P3AddNewFunctionalityDotNetCore.IntegrationTests
                 Name = "New Test Product",
                 Description = "New Test Description",
                 Details = "New Test Details",
-                Price = "20,50", // Utilisez un point pour le séparateur décimal
+                Price = "20,50",
                 Stock = "15"
             };
 
@@ -94,7 +94,7 @@ namespace P3AddNewFunctionalityDotNetCore.IntegrationTests
             var deletedProduct = _context.Product.Find(savedProduct.Id);
             Assert.Null(deletedProduct);
         }
-
+        
         public void Dispose()
         {
             _context.Dispose();

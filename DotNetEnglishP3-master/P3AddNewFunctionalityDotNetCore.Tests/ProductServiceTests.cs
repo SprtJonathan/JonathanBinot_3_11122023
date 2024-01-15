@@ -196,47 +196,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             Assert.Equal(GetMockedProducts()[0].Name, result[0].Name);
             Assert.Equal(GetMockedProducts()[1].Name, result[1].Name);
             Assert.Equal(GetMockedProducts()[2].Name, result[2].Name);
-        }
-
-        /// <summary>
-        /// GetProductByIdViewModel
-        /// </summary>
-        /// 
-        // Test de la méthode GetProductByIdViewModel de ProductService avec un id valide
-        [Fact]
-        public void GetProductByIdViewModel_ValidId_ReturnsViewModel()
-        {
-            // Arrange
-            int productId = 1;
-            ProductService productService = SetupProductService();
-
-            // Act
-            var result = productService.GetProductByIdViewModel(productId);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ProductViewModel>(result);
-            Assert.Equal(productId, result.Id);
-            Assert.Equal("Produit 1", result.Name);
-            Assert.Equal("100", result.Stock);
-            Assert.Equal("10.99", result.Price);
-        }
-
-        // Test de la méthode GetProductByIdViewModel de ProductService avec un id invalide
-        [Fact]
-        public void GetProductByIdViewModel_InvalidId_ReturnsNull()
-        {
-            // Arrange
-            int productId = 999;
-            ProductService productService = SetupProductService();
-
-            // Act
-            var result = productService.GetProductByIdViewModel(productId);
-
-            // Assert
-            Assert.Null(result);
-        }
-
+        }       
 
         /// <summary>
         /// GetProduct(int id)

@@ -35,7 +35,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             };
         }
 
-        static List<string> validityResult(ProductViewModel product)
+        static List<string> ValidityResult(ProductViewModel product)
         {
             var mockCart = Mock.Of<ICart>();
             var mockProductRepository = Mock.Of<IProductRepository>();
@@ -66,7 +66,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             };
 
             // Act
-            var result = validityResult(product);
+            var result = ValidityResult(product);
 
             // Assert
             Assert.Empty(result);
@@ -87,7 +87,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             };
 
             // Act
-            var result = validityResult(product);
+            var result = ValidityResult(product);
 
             // Assert
             Assert.Single(result);
@@ -109,7 +109,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             };
 
             // Act
-            var result = validityResult(product);
+            var result = ValidityResult(product);
 
             // Assert
             Assert.Single(result);
@@ -131,7 +131,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             };
 
             // Act
-            var result = validityResult(product);
+            var result = ValidityResult(product);
 
             // Assert
             Assert.Single(result);
@@ -152,7 +152,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             };
 
             // Act
-            var result = validityResult(product);
+            var result = ValidityResult(product);
 
             // Assert
             Assert.Equal(5, result.Count);

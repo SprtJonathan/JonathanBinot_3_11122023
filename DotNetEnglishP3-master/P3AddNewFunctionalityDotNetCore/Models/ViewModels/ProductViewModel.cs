@@ -8,23 +8,22 @@ namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
         [BindNever]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "ErrorMissingName")]
+        [Required(ErrorMessage = "MissingName")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "ErrorMissingDescription")]
+        [Required(ErrorMessage = "MissingPrice")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "ErrorMissingDetails")]
         public string Details { get; set; }
 
-        [Required(ErrorMessage = "ErrorMissingStock")]
-        [RegularExpression(@"^\d+$", ErrorMessage = "ErrorStockValue")]
-        [Range(1, int.MaxValue, ErrorMessage = "ErrorStockValue")]
+        [Required(ErrorMessage = "MissingQuantity")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "QuantityNotAnInteger")]
+        [Range(1, int.MaxValue, ErrorMessage = "QuantityNotGreaterThanZero")]
         public string Stock { get; set; }
 
-        [Required(ErrorMessage = "MissingPrice")]
-        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "ErrorPriceValue")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "ErrorPriceValue")]
+        [Required(ErrorMessage = "PriceNotANumber")]
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "PriceNotANumber")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "PriceNotGreaterThanZero")]
         public string Price { get; set; }
     }
 }

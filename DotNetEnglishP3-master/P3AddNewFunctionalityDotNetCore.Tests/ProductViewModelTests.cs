@@ -55,7 +55,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             // Assert
             Assert.Contains(results, v => v.ErrorMessage == "MissingName");
         }
-
+        
         [Fact]
         public void ProductViewModel_InvalidPrice()
         {
@@ -65,7 +65,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
                 Name = "Nom Valide",
                 Description = "Description Valide",
                 Details = "Details Valide",
-                Price = "abc", // Prix invalide (doit être un nombre)
+                Price = "Invalid Price", // Prix invalide (doit être un nombre)
                 Stock = "50"
             };
 
@@ -108,7 +108,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
                 Description = "Description Valide",
                 Details = "Details Valide",
                 Price = "100",
-                Stock = "abc" // Stock invalide (doit être un entier)
+                Stock = "Invalid Stock" // Stock invalide (doit être un entier)
             };
 
             // Act
@@ -117,6 +117,29 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             // Assert
             Assert.Contains(results, v => v.ErrorMessage == "QuantityNotAnInteger");
             Assert.Contains(results, v => v.ErrorMessage == "QuantityNotGreaterThanZero");
+        }
+
+        [Fact]
+        public void ProductViewModel_AllInvalid()
+        {
+            // Arrange
+            var product = new ProductViewModel
+            {
+                Name = "",
+                Description = "",
+                Details = "",
+                Price = "",
+                Stock = "" // Stock invalide (doit être un entier)
+            };
+
+            // Act
+            var results = ValidateModel(product);
+
+            // Assert
+            Assert.Contains(results, v => v.ErrorMessage == "MissingName");
+            Assert.Contains(results, v => v.ErrorMessage == "MissingPrice");
+            Assert.Contains(results, v => v.ErrorMessage == "MissingQuantity");
+            Assert.Contains(results, v => v.ErrorMessage == "PriceNotANumber");
         }
     }
 }

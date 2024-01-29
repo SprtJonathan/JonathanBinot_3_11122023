@@ -139,7 +139,6 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             Assert.Contains(results, v => v.ErrorMessage == "MissingName");
             Assert.Contains(results, v => v.ErrorMessage == "MissingPrice");
             Assert.Contains(results, v => v.ErrorMessage == "MissingQuantity");
-            Assert.Contains(results, v => v.ErrorMessage == "PriceNotANumber");
         }
     }
 }

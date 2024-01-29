@@ -18,10 +18,17 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
     public class ProductServiceTests
     {
 
-        private readonly IStringLocalizer<ProductService> _localizer;
+        private static IStringLocalizer<ProductService> _localizer;
         public ProductServiceTests()
         {
             var mockLocalizer = new Mock<IStringLocalizer<ProductService>>();
+            mockLocalizer.Setup(_ => _["MissingName"]).Returns(new LocalizedString("MissingName", "Please enter a name"));
+            mockLocalizer.Setup(_ => _["MissingPrice"]).Returns(new LocalizedString("MissingPrice", "Please enter a price"));
+            mockLocalizer.Setup(_ => _["MissingQuantity"]).Returns(new LocalizedString("MissingQuantity", "Please enter a stock value"));
+            mockLocalizer.Setup(_ => _["PriceNotANumber"]).Returns(new LocalizedString("PriceNotANumber", "The value entered for the price must be a number"));
+            mockLocalizer.Setup(_ => _["PriceNotGreaterThanZero"]).Returns(new LocalizedString("PriceNotGreaterThanZero", "The price must be greater than zero"));
+            mockLocalizer.Setup(_ => _["StockNotAnInteger"]).Returns(new LocalizedString("StockNotAnInteger", "The value entered for the stock must be a integer"));
+            mockLocalizer.Setup(_ => _["StockNotGreaterThanZero"]).Returns(new LocalizedString("StockNotGreaterThanZero", "The stock must greater than zero"));
             _localizer = mockLocalizer.Object;
         }
 
@@ -40,9 +47,8 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             var mockCart = Mock.Of<ICart>();
             var mockProductRepository = Mock.Of<IProductRepository>();
             var mockOrderRepository = Mock.Of<IOrderRepository>();
-            var mockLocalizer = Mock.Of<IStringLocalizer<ProductService>>();
 
-            var productService = new ProductService(mockCart, mockProductRepository, mockOrderRepository, mockLocalizer);
+            var productService = new ProductService(mockCart, mockProductRepository, mockOrderRepository, _localizer);
 
             return productService.CheckProductModelErrors(product);
         }
@@ -127,7 +133,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
                 Description = "Description Valide",
                 Details = "Details Valide",
                 Price = "100",
-                Stock = "Invalid Stock"
+                Stock = "9999999999999" // Valeur dépassant la limite autorisée pour les integer en C#
             };
 
             // Act
@@ -135,7 +141,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             // Assert
             Assert.Single(result);
-            Assert.Contains(_localizer["StockNotAnInteger"], result);
+            Assert.Contains(_localizer["QuantityNotAnInteger"], result);
         }
 
         [Fact]
@@ -157,10 +163,10 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             // Assert
             Assert.Equal(5, result.Count);
             Assert.Contains(_localizer["MissingName"], result);
-            Assert.Contains(_localizer["MissingDescription"], result);
-            Assert.Contains(_localizer["MissingDetails"], result);
-            Assert.Contains(_localizer["StockNotAnInteger"], result);
+            Assert.Contains(_localizer["MissingPrice"], result);
             Assert.Contains(_localizer["PriceNotANumber"], result);
+            Assert.Contains(_localizer["MissingQuantity"], result);
+            Assert.Contains(_localizer["QuantityNotAnInteger"], result);
         }
 
         /// <summary>

@@ -11,7 +11,6 @@ namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
         [Required(ErrorMessage = "MissingName")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "MissingPrice")]
         public string Description { get; set; }
 
         public string Details { get; set; }
@@ -21,7 +20,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "QuantityNotGreaterThanZero")]
         public string Stock { get; set; }
 
-        [Required(ErrorMessage = "PriceNotANumber")]
+        [Required(ErrorMessage = "MissingPrice")]
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "PriceNotANumber")]
         [Range(0.01, double.MaxValue, ErrorMessage = "PriceNotGreaterThanZero")]
         public string Price { get; set; }

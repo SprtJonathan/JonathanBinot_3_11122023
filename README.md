@@ -1,5 +1,9 @@
 # Projet 3 : Testez l'implémentation d'une nouvelle fonctionnalité .NET
 
+## Authentification Admin à l'application :
+Id utilisateur : Admin
+Mot de passe : P@ssword123
+
 ## Prérequis :
 MSSQL Developer 2019 ou Express 2019 doit être installé avec Microsoft SQL Server Management Studio (SSMS).
 
